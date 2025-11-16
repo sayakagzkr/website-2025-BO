@@ -88,7 +88,7 @@ const ContentEdit = () => {
             <h1 className="text-3xl font-bold text-gray-900">
               {id ? 'ContentEdit' : '新規Content'}
             </h1>
-            <p className="text-gray-600 mt-1">Contentの作成・Edit</p>
+            <p className="text-gray-600 mt-1">Create Content・Edit</p>
           </div>
         </div>
       </div>
@@ -122,7 +122,7 @@ const ContentEdit = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 placeholder="url-friendly-slug"
               />
-              <p className="mt-1 text-sm text-gray-500">URLに使用される識別子</p>
+              <p className="mt-1 text-sm text-gray-500">Identifiers used in URL</p>
             </div>
 
             <div>
@@ -205,7 +205,7 @@ const ContentEdit = () => {
             className="flex items-center px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors disabled:opacity-50"
           >
             <Save size={20} className="mr-2" />
-            {loading ? 'Save中...' : 'Save'}
+            {loading ? 'Saving...' : 'Save'}
           </button>
         </div>
       </form>
