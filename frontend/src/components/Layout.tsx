@@ -6,7 +6,17 @@ import {
   Settings as SettingsIcon,
   LogOut,
   Menu,
-  X
+  X,
+  ShoppingCart,
+  Tag,
+  Receipt,
+  BarChart3,
+  RefreshCcw,
+  Download,
+  Mail,
+  Calendar,
+  BookOpen,
+  Zap
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useState } from 'react';
@@ -17,10 +27,23 @@ const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navigation = [
-    { name: 'ダッシュボード', href: '/', icon: LayoutDashboard },
-    { name: 'ユーザー管理', href: '/users', icon: UsersIcon },
-    { name: 'コンテンツ管理', href: '/content', icon: FileText },
-    { name: '設定', href: '/settings', icon: SettingsIcon },
+    { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+    { name: 'Transactions', href: '/transactions', icon: ShoppingCart },
+    { name: 'Customers', href: '/customers', icon: UsersIcon },
+    { name: 'Pages', href: '/content', icon: FileText },
+    { name: 'Categories', href: '/categories', icon: Tag },
+    { name: 'Products', href: '/products', icon: ShoppingCart },
+    { name: 'Affiliates', href: '/affiliates', icon: UsersIcon },
+    { name: 'Reports', href: '/reports', icon: BarChart3 },
+    { name: 'Refunds', href: '/refunds', icon: RefreshCcw },
+    { name: 'Download Log', href: '/download-log', icon: Download },
+    { name: 'Mail Log', href: '/mail-log', icon: Mail },
+    { name: 'Day TRX', href: '/day-trx', icon: Calendar },
+    { name: 'Invoices', href: '/invoices', icon: Receipt },
+    { name: 'Docs', href: '/docs', icon: BookOpen },
+    { name: 'FAST Docs', href: '/fast-docs', icon: Zap },
+    { name: 'Users', href: '/users', icon: UsersIcon },
+    { name: 'Settings', href: '/settings', icon: SettingsIcon },
   ];
 
   const isActive = (path: string) => {

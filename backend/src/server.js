@@ -23,11 +23,27 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const contentRoutes = require('./routes/content');
 const analyticsRoutes = require('./routes/analytics');
+const categoriesRoutes = require('./routes/categories');
+const productsRoutes = require('./routes/products');
+const customersRoutes = require('./routes/customers');
+const affiliatesRoutes = require('./routes/affiliates');
+const transactionsRoutes = require('./routes/transactions');
+const invoicesRoutes = require('./routes/invoices');
+const refundsRoutes = require('./routes/refunds');
+const logsRoutes = require('./routes/logs');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/categories', categoriesRoutes);
+app.use('/api/products', productsRoutes);
+app.use('/api/customers', customersRoutes);
+app.use('/api/affiliates', affiliatesRoutes);
+app.use('/api/transactions', transactionsRoutes);
+app.use('/api/invoices', invoicesRoutes);
+app.use('/api/refunds', refundsRoutes);
+app.use('/api/logs', logsRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

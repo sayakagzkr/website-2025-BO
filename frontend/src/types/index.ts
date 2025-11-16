@@ -75,3 +75,121 @@ export interface PaginationResponse<T> {
     totalPages: number;
   };
 }
+
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  status: 'active' | 'inactive';
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  price: number;
+  category_id?: number;
+  category_name?: string;
+  image_url?: string;
+  stock: number;
+  status: 'active' | 'inactive';
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Customer {
+  id: number;
+  email: string;
+  full_name: string;
+  country?: string;
+  address?: string;
+  phone?: string;
+  status: 'active' | 'inactive';
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Affiliate {
+  id: number;
+  user_id?: number;
+  username?: string;
+  email?: string;
+  code: string;
+  commission_rate: number;
+  total_sales: number;
+  total_commission: number;
+  status: 'active' | 'inactive';
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Transaction {
+  id: number;
+  transaction_id: string;
+  customer_id: number;
+  customer_email?: string;
+  customer_name?: string;
+  affiliate_id?: number;
+  affiliate_code?: string;
+  product_id: number;
+  product_name?: string;
+  amount: number;
+  commission: number;
+  status: 'pending' | 'completed' | 'failed' | 'refunded';
+  payment_method?: string;
+  card_bin?: string;
+  country?: string;
+  created_at: string;
+}
+
+export interface Invoice {
+  id: number;
+  invoice_number: string;
+  transaction_id?: number;
+  customer_id: number;
+  customer_email?: string;
+  customer_name?: string;
+  amount: number;
+  status: 'unpaid' | 'paid' | 'cancelled';
+  due_date?: string;
+  paid_at?: string;
+  created_at: string;
+}
+
+export interface Refund {
+  id: number;
+  transaction_id: number;
+  trans_id?: string;
+  customer_email?: string;
+  amount: number;
+  reason?: string;
+  status: 'pending' | 'processed' | 'rejected';
+  processed_at?: string;
+  created_at: string;
+}
+
+export interface DownloadLog {
+  id: number;
+  customer_id: number;
+  customer_email?: string;
+  customer_name?: string;
+  product_id: number;
+  product_name?: string;
+  transaction_id?: number;
+  transaction_id_str?: string;
+  ip_address?: string;
+  created_at: string;
+}
+
+export interface MailLog {
+  id: number;
+  recipient: string;
+  subject: string;
+  body?: string;
+  status: 'sent' | 'failed' | 'pending';
+  sent_at: string;
+}
