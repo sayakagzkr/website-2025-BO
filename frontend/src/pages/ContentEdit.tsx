@@ -4,7 +4,7 @@ import { contentApi } from '../services/api';
 import type { Content } from '../types';
 import { Save, ArrowLeft } from 'lucide-react';
 
-const ContentEdit = () => {
+const Edit Content = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ const ContentEdit = () => {
       });
     } catch (error) {
       console.error('Failed to load content:', error);
-      alert('Contentの読み込みにfailed');
+      alert('Failed to load content');
     }
   };
 
@@ -68,7 +68,7 @@ const ContentEdit = () => {
       }
       navigate('/content');
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Saveにfailed');
+      alert(error.response?.data?.error || 'Failed to save');
     } finally {
       setLoading(false);
     }
@@ -86,9 +86,9 @@ const ContentEdit = () => {
           </button>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
-              {id ? 'ContentEdit' : '新規Content'}
+              {id ? 'Edit Content' : 'New Content'}
             </h1>
-            <p className="text-gray-600 mt-1">Contentの作成・Edit</p>
+            <p className="text-gray-600 mt-1">Create or edit content</p>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ const ContentEdit = () => {
                 onChange={(e) => handleTitleChange(e.target.value)}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                placeholder="ContentのTitle"
+                placeholder="Content title"
               />
             </div>
 
@@ -122,7 +122,7 @@ const ContentEdit = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 placeholder="url-friendly-slug"
               />
-              <p className="mt-1 text-sm text-gray-500">URLに使用される識別子</p>
+              <p className="mt-1 text-sm text-gray-500">Identifier used in URL</p>
             </div>
 
             <div>
@@ -134,7 +134,7 @@ const ContentEdit = () => {
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                placeholder="例: ニュース、ブログ"
+                placeholder="Example: News, Blog"
               />
             </div>
 
@@ -185,7 +185,7 @@ const ContentEdit = () => {
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 rows={15}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono text-sm"
-                placeholder="ContentのBodyを入力..."
+                placeholder="Enter content body..."
               />
             </div>
           </div>
@@ -205,7 +205,7 @@ const ContentEdit = () => {
             className="flex items-center px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors disabled:opacity-50"
           >
             <Save size={20} className="mr-2" />
-            {loading ? 'Save中...' : 'Save'}
+            {loading ? 'Saving...' : 'Save'}
           </button>
         </div>
       </form>
@@ -213,4 +213,4 @@ const ContentEdit = () => {
   );
 };
 
-export default ContentEdit;
+export default Edit Content;

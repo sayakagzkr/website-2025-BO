@@ -1,188 +1,211 @@
 # Backoffice Management System
 
-モダンなバックオフィス管理システム - React + TypeScript + Node.js + Express
+Modern backoffice management system - React + TypeScript + Node.js + Express
 
-## 概要
+## Overview
 
-このプロジェクトは、企業や組織のバックオフィス業務を効率化するための管理システムです。
-ユーザー管理、コンテンツ管理、分析ダッシュボードなどの機能を提供します。
+This project is a management system designed to streamline backoffice operations for businesses and organizations. It provides features such as user management, content management, and analytics dashboard.
 
-## 主な機能
+## Key Features
 
-### 🔐 認証・認可
-- JWT認証
-- ロールベースのアクセス制御（管理者・一般ユーザー）
-- セキュアなパスワード管理
+### 🔐 Authentication & Authorization
+- JWT authentication
+- Role-based access control (admin/user)
+- Secure password management
 
-### 📊 ダッシュボード
-- リアルタイム統計情報
-- グラフとチャートによる可視化
-- 人気コンテンツのトラッキング
-- アクティビティログ
+### 📊 Dashboard
+- Real-time statistics
+- Data visualization with graphs and charts
+- Popular content tracking
+- Activity logs
 
-### 👥 ユーザー管理
-- ユーザーの作成・編集・削除
-- ロールとステータスの管理
-- 詳細な検索・フィルタリング機能
+### 👥 User Management
+- Create, edit, and delete users
+- Role and status management
+- Detailed search and filtering
 
-### 📝 コンテンツ管理
-- 記事やページの作成・編集
-- ドラフト・公開・アーカイブのステータス管理
-- カテゴリ分類
-- 閲覧数トラッキング
+### 📝 Content Management
+- Create and edit articles/pages
+- Status management (draft/published/archived)
+- Category classification
+- View count tracking
 
-### ⚙️ 設定
-- パスワード変更
-- アカウント情報管理
+### 🛒 E-commerce Features
+- Transaction management
+- Product catalog
+- Customer database
+- Affiliate partner management
+- Invoice generation
+- Refund processing
+- Download and mail logs
 
-## 技術スタック
+### ⚙️ Settings
+- Password change
+- Account information management
 
-### フロントエンド
-- **React 18** - UIライブラリ
-- **TypeScript** - 型安全性
-- **Vite** - 高速ビルドツール
-- **Tailwind CSS** - ユーティリティファーストCSS
-- **React Router** - ルーティング
-- **Axios** - HTTP通信
-- **Recharts** - データ可視化
-- **Lucide React** - アイコンライブラリ
+## Technology Stack
 
-### バックエンド
-- **Node.js** - ランタイム
-- **Express** - Webフレームワーク
-- **SQLite (better-sqlite3)** - データベース
-- **JWT (jsonwebtoken)** - 認証
-- **bcryptjs** - パスワードハッシュ化
-- **express-validator** - バリデーション
+### Frontend
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Fast build tool
+- **Tailwind CSS** - Utility-first CSS
+- **React Router** - Routing
+- **Axios** - HTTP client
+- **Recharts** - Data visualization
+- **Lucide React** - Icon library
 
-## セットアップ
+### Backend
+- **Node.js** - Runtime
+- **Express** - Web framework
+- **SQLite (better-sqlite3)** - Database
+- **JWT (jsonwebtoken)** - Authentication
+- **bcryptjs** - Password hashing
+- **express-validator** - Validation
 
-### 必要な環境
-- Node.js 18以上
-- npm または yarn
+## Setup
 
-### インストール
+### Requirements
+- Node.js 18 or higher
+- npm or yarn
 
-1. リポジトリのクローン（またはダウンロード）
+### Installation
 
-2. 依存関係のインストール
+1. Clone the repository (or download)
+
+2. Install dependencies
 ```bash
 npm run install:all
 ```
 
-これにより、ルート、バックエンド、フロントエンドの全ての依存関係がインストールされます。
+This will install all dependencies for root, backend, and frontend.
 
-### 開発サーバーの起動
+### Start Development Servers
 
 ```bash
 npm run dev
 ```
 
-これにより、以下のサーバーが起動します：
-- フロントエンド: http://localhost:5173
-- バックエンドAPI: http://localhost:3001
+This will start the following servers:
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:3001
 
-または、個別に起動することもできます：
+Or start them individually:
 
 ```bash
-# バックエンドのみ
+# Backend only
 npm run dev:backend
 
-# フロントエンドのみ
+# Frontend only
 npm run dev:frontend
 ```
 
-## デフォルトの認証情報
+## Default Credentials
 
-初回起動時に管理者アカウントが自動作成されます：
+An admin account is automatically created on first startup:
 
-- **ユーザー名**: `admin`
-- **パスワード**: `admin123`
+- **Username**: `admin`
+- **Password**: `admin123`
 
-⚠️ **セキュリティ**: 初回ログイン後、必ずパスワードを変更してください。
+⚠️ **Security**: Please change the password after first login.
 
-## プロジェクト構造
+## Project Structure
 
 ```
 backoffice-system/
-├── backend/              # バックエンドアプリケーション
+├── backend/              # Backend application
 │   ├── src/
-│   │   ├── controllers/  # コントローラー
-│   │   ├── models/       # データモデル
-│   │   ├── routes/       # APIルート
-│   │   │   ├── auth.js   # 認証API
-│   │   │   ├── users.js  # ユーザー管理API
-│   │   │   ├── content.js # コンテンツ管理API
-│   │   │   └── analytics.js # 分析API
-│   │   ├── middleware/   # ミドルウェア
-│   │   │   └── auth.js   # 認証ミドルウェア
-│   │   ├── utils/        # ユーティリティ
-│   │   │   └── database.js # データベース設定
-│   │   └── server.js     # エントリーポイント
-│   ├── data/             # SQLiteデータベースファイル
-│   ├── .env              # 環境変数
+│   │   ├── controllers/  # Controllers
+│   │   ├── models/       # Data models
+│   │   ├── routes/       # API routes
+│   │   │   ├── auth.js   # Authentication API
+│   │   │   ├── users.js  # User management API
+│   │   │   ├── content.js # Content management API
+│   │   │   ├── transactions.js # Transaction API
+│   │   │   ├── products.js # Product API
+│   │   │   └── analytics.js # Analytics API
+│   │   ├── middleware/   # Middleware
+│   │   │   └── auth.js   # Authentication middleware
+│   │   ├── utils/        # Utilities
+│   │   │   └── database.js # Database configuration
+│   │   └── server.js     # Entry point
+│   ├── data/             # SQLite database files
+│   ├── .env              # Environment variables
 │   └── package.json
 │
-├── frontend/             # フロントエンドアプリケーション
+├── frontend/             # Frontend application
 │   ├── src/
-│   │   ├── components/   # 共通コンポーネント
-│   │   │   └── Layout.tsx # レイアウトコンポーネント
-│   │   ├── pages/        # ページコンポーネント
+│   │   ├── components/   # Shared components
+│   │   │   └── Layout.tsx # Layout component
+│   │   ├── pages/        # Page components
 │   │   │   ├── Login.tsx
 │   │   │   ├── Dashboard.tsx
 │   │   │   ├── Users.tsx
 │   │   │   ├── Content.tsx
-│   │   │   ├── ContentEdit.tsx
+│   │   │   ├── Products.tsx
+│   │   │   ├── Transactions.tsx
 │   │   │   └── Settings.tsx
-│   │   ├── services/     # API通信
+│   │   ├── services/     # API communication
 │   │   │   └── api.ts
-│   │   ├── hooks/        # カスタムフック
+│   │   ├── hooks/        # Custom hooks
 │   │   │   └── useAuth.tsx
-│   │   ├── types/        # TypeScript型定義
+│   │   ├── types/        # TypeScript type definitions
 │   │   │   └── index.ts
-│   │   ├── App.tsx       # アプリケーションルート
-│   │   ├── main.tsx      # エントリーポイント
-│   │   └── index.css     # グローバルスタイル
+│   │   ├── App.tsx       # Application root
+│   │   ├── main.tsx      # Entry point
+│   │   └── index.css     # Global styles
 │   ├── index.html
 │   ├── vite.config.ts
 │   ├── tailwind.config.js
 │   └── package.json
 │
-├── package.json          # ルートパッケージ
+├── package.json          # Root package
 └── README.md
 ```
 
-## API エンドポイント
+## API Endpoints
 
-### 認証
-- `POST /api/auth/login` - ログイン
-- `GET /api/auth/me` - 現在のユーザー情報取得
-- `POST /api/auth/change-password` - パスワード変更
+### Authentication
+- `POST /api/auth/login` - Login
+- `GET /api/auth/me` - Get current user info
+- `POST /api/auth/change-password` - Change password
 
-### ユーザー管理
-- `GET /api/users` - ユーザー一覧取得
-- `GET /api/users/:id` - ユーザー詳細取得
-- `POST /api/users` - ユーザー作成（管理者のみ）
-- `PUT /api/users/:id` - ユーザー更新
-- `DELETE /api/users/:id` - ユーザー削除（管理者のみ）
+### User Management
+- `GET /api/users` - Get user list
+- `GET /api/users/:id` - Get user details
+- `POST /api/users` - Create user (admin only)
+- `PUT /api/users/:id` - Update user
+- `DELETE /api/users/:id` - Delete user (admin only)
 
-### コンテンツ管理
-- `GET /api/content` - コンテンツ一覧取得
-- `GET /api/content/:id` - コンテンツ詳細取得
-- `POST /api/content` - コンテンツ作成
-- `PUT /api/content/:id` - コンテンツ更新
-- `DELETE /api/content/:id` - コンテンツ削除
+### Content Management
+- `GET /api/content` - Get content list
+- `GET /api/content/:id` - Get content details
+- `POST /api/content` - Create content
+- `PUT /api/content/:id` - Update content
+- `DELETE /api/content/:id` - Delete content
 
-### 分析
-- `GET /api/analytics/dashboard` - ダッシュボード統計
-- `GET /api/analytics/activity` - アクティビティログ
-- `POST /api/analytics/activity` - アクティビティ記録
+### Products
+- `GET /api/products` - Get product list
+- `POST /api/products` - Create product
+- `PUT /api/products/:id` - Update product
+- `DELETE /api/products/:id` - Delete product
 
-## データベース
+### Transactions
+- `GET /api/transactions` - Get transaction list with filters
+- `GET /api/transactions/:id` - Get transaction details
+- `POST /api/transactions` - Create transaction
+- `PUT /api/transactions/:id` - Update transaction
 
-SQLiteを使用しています。データベースファイルは `backend/data/database.db` に保存されます。
+### Analytics
+- `GET /api/analytics/dashboard` - Dashboard statistics
+- `GET /api/analytics/activity` - Activity logs
+- `POST /api/analytics/activity` - Record activity
 
-### テーブル構造
+## Database
+
+Uses SQLite. Database file is stored at `backend/data/database.db`.
+
+### Table Structure
 
 **users**
 - id, username, email, password, full_name, role, status, created_at, updated_at
@@ -190,12 +213,24 @@ SQLiteを使用しています。データベースファイルは `backend/data
 **content**
 - id, title, slug, content, status, category, author_id, views, created_at, updated_at, published_at
 
+**products**
+- id, name, slug, description, price, stock, category_id, status, image_url, created_at, updated_at
+
+**transactions**
+- id, transaction_id, customer_id, affiliate_id, product_id, amount, commission, status, payment_method, country, created_at
+
+**customers**
+- id, name, email, country, phone, status, created_at
+
+**affiliates**
+- id, name, code, commission_rate, status, total_sales, total_commission, created_at
+
 **activity_logs**
 - id, user_id, action, resource_type, resource_id, ip_address, user_agent, created_at
 
-## 環境変数
+## Environment Variables
 
-`backend/.env` ファイルで以下の環境変数を設定できます：
+Configure the following environment variables in `backend/.env`:
 
 ```env
 PORT=3001
@@ -204,66 +239,66 @@ JWT_EXPIRES_IN=7d
 NODE_ENV=development
 ```
 
-⚠️ **セキュリティ**: 本番環境では必ず `JWT_SECRET` を強力なランダム文字列に変更してください。
+⚠️ **Security**: Always change `JWT_SECRET` to a strong random string in production.
 
-## セキュリティ
+## Security
 
-- パスワードは bcryptjs でハッシュ化
-- JWT トークンによる認証
-- ロールベースのアクセス制御
-- CORS 設定
-- SQLインジェクション対策（prepared statements使用）
+- Password hashing with bcryptjs
+- JWT token authentication
+- Role-based access control
+- CORS configuration
+- SQL injection prevention (prepared statements)
 
-## カスタマイズ
+## Customization
 
-### カラーテーマの変更
+### Change Color Theme
 
-`frontend/tailwind.config.js` でプライマリカラーを変更できます：
+You can change the primary color in `frontend/tailwind.config.js`:
 
 ```javascript
 theme: {
   extend: {
     colors: {
       primary: {
-        // カラーコードをカスタマイズ
+        // Customize color codes
       }
     }
   }
 }
 ```
 
-### 機能の追加
+### Add New Features
 
-1. バックエンド: `backend/src/routes/` に新しいルートファイルを追加
-2. フロントエンド: `frontend/src/pages/` に新しいページを追加
-3. APIサービス: `frontend/src/services/api.ts` にAPI関数を追加
+1. Backend: Add new route files in `backend/src/routes/`
+2. Frontend: Add new pages in `frontend/src/pages/`
+3. API Service: Add API functions in `frontend/src/services/api.ts`
 
-## トラブルシューティング
+## Troubleshooting
 
-### ポートが既に使用されている
+### Port Already in Use
 
-別のアプリケーションがポート3001または5173を使用している場合：
+If another application is using port 3001 or 5173:
 
-- バックエンド: `backend/.env` の `PORT` を変更
-- フロントエンド: `frontend/vite.config.ts` の `server.port` を変更
+- Backend: Change `PORT` in `backend/.env`
+- Frontend: Change `server.port` in `frontend/vite.config.ts`
 
-### データベースエラー
+### Database Errors
 
-データベースをリセットする場合：
+To reset the database:
 
 ```bash
 rm backend/data/database.db
-# サーバーを再起動すると新しいデータベースが作成されます
+# Restart the server to create a new database
 ```
 
-## ライセンス
+## License
 
 MIT License
 
-## サポート
+## Support
 
-問題が発生した場合は、GitHubのIssuesセクションで報告してください。
+If you encounter any issues, please report them in the GitHub Issues section.
 
 ---
 
-**開発者向けノート**: このシステムは開発・学習目的で作成されています。本番環境で使用する場合は、セキュリティ監査を実施し、適切なセキュリティ対策を追加してください。
+**Developer Note**: This system was created for development and learning purposes. If you plan to use it in production, conduct a security audit and implement appropriate security measures.

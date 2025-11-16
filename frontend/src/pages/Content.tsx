@@ -30,12 +30,12 @@ const ContentPage = () => {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm('本当にDeleteしますか？')) return;
+    if (!confirm('Are you sure you want to delete?')) return;
     try {
       await contentApi.delete(id);
       loadContent();
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Deleteにfailed');
+      alert(error.response?.data?.error || 'Failed to delete');
     }
   };
 
@@ -70,7 +70,7 @@ const ContentPage = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Content Management</h1>
-          <p className="text-gray-600 mt-1">ArticleやPageのManage</p>
+          <p className="text-gray-600 mt-1">Manage articles and pages</p>
         </div>
         <button
           onClick={() => navigate('/content/new')}
@@ -90,7 +90,7 @@ const ContentPage = () => {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="TitleやContentでSearch..."
+              placeholder="Search by title or content..."
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
@@ -99,7 +99,7 @@ const ContentPage = () => {
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
-            <option value="">AllのStatus</option>
+            <option value="">All Statuses</option>
             <option value="draft">Draft</option>
             <option value="published">Published</option>
             <option value="archived">Archived</option>
@@ -122,16 +122,16 @@ const ContentPage = () => {
                 Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                作成者
+                Author
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                閲覧数
+                Views
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Created
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                操作
+                Actions
               </th>
             </tr>
           </thead>
@@ -182,7 +182,7 @@ const ContentPage = () => {
         </table>
         {content.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500">Contentがnot found</p>
+            <p className="text-gray-500">No content found</p>
           </div>
         )}
       </div>

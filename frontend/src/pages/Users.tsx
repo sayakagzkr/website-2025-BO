@@ -48,17 +48,17 @@ const Users = () => {
       resetForm();
       loadUsers();
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Errorが発生しました');
+      alert(error.response?.data?.error || 'An error occurred');
     }
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm('本当にDeleteしますか？')) return;
+    if (!confirm('Are you sure you want to delete?')) return;
     try {
       await usersApi.delete(id);
       loadUsers();
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Deleteにfailed');
+      alert(error.response?.data?.error || 'Failed to delete');
     }
   };
 
@@ -105,7 +105,7 @@ const Users = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
-          <p className="text-gray-600 mt-1">システムユーザーのManage</p>
+          <p className="text-gray-600 mt-1">Manage system users</p>
         </div>
         {currentUser?.role === 'admin' && (
           <button
@@ -126,7 +126,7 @@ const Users = () => {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Username、EmailでSearch..."
+            placeholder="Search by username or email..."
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
@@ -138,7 +138,7 @@ const Users = () => {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                ユーザー
+                User
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Email
@@ -154,7 +154,7 @@ const Users = () => {
               </th>
               {currentUser?.role === 'admin' && (
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  操作
+                  Actions
                 </th>
               )}
             </tr>
@@ -184,7 +184,7 @@ const Users = () => {
                       ? 'bg-purple-100 text-purple-800' 
                       : 'bg-blue-100 text-blue-800'
                   }`}>
-                    {user.role === 'admin' ? 'Admin' : 'ユーザー'}
+                    {user.role === 'admin' ? 'Admin' : 'User'}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -238,7 +238,7 @@ const Users = () => {
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                {editingUser ? 'ユーザーEdit' : 'Add User'}
+                {editingUser ? 'UserEdit' : 'Add User'}
               </h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
@@ -304,7 +304,7 @@ const Users = () => {
                     onChange={(e) => setFormData({ ...formData, role: e.target.value as 'admin' | 'user' })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   >
-                    <option value="user">ユーザー</option>
+                    <option value="user">User</option>
                     <option value="admin">Admin</option>
                   </select>
                 </div>
@@ -335,7 +335,7 @@ const Users = () => {
                     type="submit"
                     className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
                   >
-                    {editingUser ? '更新' : '作成'}
+                    {editingUser ? 'Update' : 'Create'}
                   </button>
                 </div>
               </form>

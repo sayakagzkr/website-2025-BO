@@ -18,12 +18,12 @@ const Settings = () => {
     setMessage(null);
 
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      setMessage({ type: 'error', text: '新しいPasswordが一致しません' });
+      setMessage({ type: 'error', text: 'New passwords do not match' });
       return;
     }
 
     if (passwordForm.newPassword.length < 6) {
-      setMessage({ type: 'error', text: 'Passwordは6文字以上である必要があります' });
+      setMessage({ type: 'error', text: 'Password must be at least 6 characters' });
       return;
     }
 
@@ -34,7 +34,7 @@ const Settings = () => {
         currentPassword: passwordForm.currentPassword,
         newPassword: passwordForm.newPassword,
       });
-      setMessage({ type: 'success', text: 'PasswordをChangeしました' });
+      setMessage({ type: 'success', text: 'Password changed successfully' });
       setPasswordForm({
         currentPassword: '',
         newPassword: '',
@@ -43,7 +43,7 @@ const Settings = () => {
     } catch (error: any) {
       setMessage({ 
         type: 'error', 
-        text: error.response?.data?.error || 'PasswordのChangeにfailed' 
+        text: error.response?.data?.error || 'Failed to change password' 
       });
     } finally {
       setLoading(false);
@@ -54,7 +54,7 @@ const Settings = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-        <p className="text-gray-600 mt-1">アカウントSettingsのManage</p>
+        <p className="text-gray-600 mt-1">Manage account settings</p>
       </div>
 
       {/* User Info */}
@@ -84,7 +84,7 @@ const Settings = () => {
                   ? 'bg-purple-100 text-purple-800' 
                   : 'bg-blue-100 text-blue-800'
               }`}>
-                {user?.role === 'admin' ? 'Admin' : 'ユーザー'}
+                {user?.role === 'admin' ? 'Admin' : 'User'}
               </span>
             </div>
           </div>
@@ -121,7 +121,7 @@ const Settings = () => {
         <form onSubmit={handlePasswordChange} className="space-y-4 max-w-md">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              現在のPassword *
+              Current Password *
             </label>
             <input
               type="password"
@@ -129,13 +129,13 @@ const Settings = () => {
               onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="現在のPassword"
+              placeholder="Current Password"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              新しいPassword *
+              New Password *
             </label>
             <input
               type="password"
@@ -143,13 +143,13 @@ const Settings = () => {
               onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="新しいPassword（6文字以上）"
+              placeholder="New password (6+ characters)"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              新しいPassword（Confirm） *
+              Confirm New Password *
             </label>
             <input
               type="password"
@@ -157,7 +157,7 @@ const Settings = () => {
               onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="新しいPassword（再入力）"
+              placeholder="Re-enter new password"
             />
           </div>
 
@@ -166,7 +166,7 @@ const Settings = () => {
             disabled={loading}
             className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Change中...' : 'PasswordをChange'}
+            {loading ? 'Changing...' : 'Change Password'}
           </button>
         </form>
       </div>
