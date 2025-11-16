@@ -30,12 +30,12 @@ const ContentPage = () => {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm('本当に削除しますか？')) return;
+    if (!confirm('本当にDeleteしますか？')) return;
     try {
       await contentApi.delete(id);
       loadContent();
     } catch (error: any) {
-      alert(error.response?.data?.error || '削除に失敗しました');
+      alert(error.response?.data?.error || 'Deleteにfailed');
     }
   };
 
@@ -46,9 +46,9 @@ const ContentPage = () => {
       archived: 'bg-red-100 text-red-800',
     };
     const labels = {
-      draft: '下書き',
-      published: '公開',
-      archived: 'アーカイブ',
+      draft: 'Draft',
+      published: 'Published',
+      archived: 'Archived',
     };
     return (
       <span className={`px-2 py-1 text-xs font-semibold rounded-full ${styles[status as keyof typeof styles]}`}>
@@ -69,15 +69,15 @@ const ContentPage = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">コンテンツ管理</h1>
-          <p className="text-gray-600 mt-1">記事やページの管理</p>
+          <h1 className="text-3xl font-bold text-gray-900">Content Management</h1>
+          <p className="text-gray-600 mt-1">ArticleやPageのManage</p>
         </div>
         <button
           onClick={() => navigate('/content/new')}
           className="flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
         >
           <Plus size={20} className="mr-2" />
-          新規作成
+          Add New
         </button>
       </div>
 
@@ -90,7 +90,7 @@ const ContentPage = () => {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="タイトルやコンテンツで検索..."
+              placeholder="TitleやContentでSearch..."
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
@@ -99,10 +99,10 @@ const ContentPage = () => {
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
-            <option value="">すべてのステータス</option>
-            <option value="draft">下書き</option>
-            <option value="published">公開</option>
-            <option value="archived">アーカイブ</option>
+            <option value="">AllのStatus</option>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+            <option value="archived">Archived</option>
           </select>
         </div>
       </div>
@@ -113,13 +113,13 @@ const ContentPage = () => {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                タイトル
+                Title
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                カテゴリ
+                Category
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                ステータス
+                Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 作成者
@@ -128,7 +128,7 @@ const ContentPage = () => {
                 閲覧数
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                作成日
+                Created
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 操作
@@ -182,7 +182,7 @@ const ContentPage = () => {
         </table>
         {content.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500">コンテンツが見つかりません</p>
+            <p className="text-gray-500">Contentがnot found</p>
           </div>
         )}
       </div>

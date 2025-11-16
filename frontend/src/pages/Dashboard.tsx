@@ -34,32 +34,32 @@ const Dashboard = () => {
   if (!stats) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">データの読み込みに失敗しました</p>
+        <p className="text-gray-500">Failed to load data</p>
       </div>
     );
   }
 
   const statCards = [
     {
-      name: '総ユーザー数',
+      name: 'Total Users',
       value: stats.summary.totalUsers,
       icon: Users,
       color: 'bg-blue-500',
     },
     {
-      name: '総コンテンツ数',
+      name: 'Total Content',
       value: stats.summary.totalContent,
       icon: FileText,
       color: 'bg-green-500',
     },
     {
-      name: '公開済みコンテンツ',
+      name: 'Published Content',
       value: stats.summary.publishedContent,
       icon: TrendingUp,
       color: 'bg-purple-500',
     },
     {
-      name: '総閲覧数',
+      name: 'Total Views',
       value: stats.summary.totalViews,
       icon: Eye,
       color: 'bg-orange-500',
@@ -102,7 +102,7 @@ const Dashboard = () => {
         {/* Recent Content */}
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            最近のコンテンツ作成（過去7日間）
+            Recent Content Creation (Last 7 Days)
           </h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={stats.charts.recentContent}>
@@ -111,7 +111,7 @@ const Dashboard = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="count" stroke="#0ea5e9" strokeWidth={2} name="作成数" />
+              <Line type="monotone" dataKey="count" stroke="#0ea5e9" strokeWidth={2} name="Created" />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -119,7 +119,7 @@ const Dashboard = () => {
         {/* Content by Status */}
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            ステータス別コンテンツ
+            Content by Status
           </h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
@@ -145,7 +145,7 @@ const Dashboard = () => {
         {/* Content by Category */}
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            カテゴリ別コンテンツ
+            Content by Category
           </h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={stats.charts.contentByCategory}>
@@ -154,7 +154,7 @@ const Dashboard = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="count" fill="#0ea5e9" name="コンテンツ数" />
+              <Bar dataKey="count" fill="#0ea5e9" name="Content Count" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -163,7 +163,7 @@ const Dashboard = () => {
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
             <Activity className="mr-2" size={20} />
-            人気コンテンツ Top 10
+            Top 10 Popular Content
           </h2>
           <div className="space-y-3">
             {stats.topContent.slice(0, 10).map((content, index) => (

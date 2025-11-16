@@ -48,17 +48,17 @@ const Users = () => {
       resetForm();
       loadUsers();
     } catch (error: any) {
-      alert(error.response?.data?.error || 'エラーが発生しました');
+      alert(error.response?.data?.error || 'Errorが発生しました');
     }
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm('本当に削除しますか？')) return;
+    if (!confirm('本当にDeleteしますか？')) return;
     try {
       await usersApi.delete(id);
       loadUsers();
     } catch (error: any) {
-      alert(error.response?.data?.error || '削除に失敗しました');
+      alert(error.response?.data?.error || 'Deleteにfailed');
     }
   };
 
@@ -104,8 +104,8 @@ const Users = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">ユーザー管理</h1>
-          <p className="text-gray-600 mt-1">システムユーザーの管理</p>
+          <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
+          <p className="text-gray-600 mt-1">システムユーザーのManage</p>
         </div>
         {currentUser?.role === 'admin' && (
           <button
@@ -113,7 +113,7 @@ const Users = () => {
             className="flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
           >
             <Plus size={20} className="mr-2" />
-            新規ユーザー
+            Add User
           </button>
         )}
       </div>
@@ -126,7 +126,7 @@ const Users = () => {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="ユーザー名、メールアドレスで検索..."
+            placeholder="Username、EmailでSearch..."
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
@@ -141,16 +141,16 @@ const Users = () => {
                 ユーザー
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                メールアドレス
+                Email
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                権限
+                Role
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                ステータス
+                Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                作成日
+                Created
               </th>
               {currentUser?.role === 'admin' && (
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -184,7 +184,7 @@ const Users = () => {
                       ? 'bg-purple-100 text-purple-800' 
                       : 'bg-blue-100 text-blue-800'
                   }`}>
-                    {user.role === 'admin' ? '管理者' : 'ユーザー'}
+                    {user.role === 'admin' ? 'Admin' : 'ユーザー'}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -196,12 +196,12 @@ const Users = () => {
                     {user.status === 'active' ? (
                       <>
                         <UserCheck size={14} className="mr-1" />
-                        有効
+                        Active
                       </>
                     ) : (
                       <>
                         <UserX size={14} className="mr-1" />
-                        無効
+                        Inactive
                       </>
                     )}
                   </span>
@@ -238,12 +238,12 @@ const Users = () => {
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                {editingUser ? 'ユーザー編集' : '新規ユーザー'}
+                {editingUser ? 'ユーザーEdit' : 'Add User'}
               </h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    ユーザー名 *
+                    Username *
                   </label>
                   <input
                     type="text"
@@ -257,7 +257,7 @@ const Users = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    メールアドレス *
+                    Email *
                   </label>
                   <input
                     type="email"
@@ -271,7 +271,7 @@ const Users = () => {
                 {!editingUser && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      パスワード *
+                      Password *
                     </label>
                     <input
                       type="password"
@@ -285,7 +285,7 @@ const Users = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    氏名
+                    Full Name
                   </label>
                   <input
                     type="text"
@@ -297,7 +297,7 @@ const Users = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    権限 *
+                    Role *
                   </label>
                   <select
                     value={formData.role}
@@ -305,21 +305,21 @@ const Users = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   >
                     <option value="user">ユーザー</option>
-                    <option value="admin">管理者</option>
+                    <option value="admin">Admin</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    ステータス *
+                    Status *
                   </label>
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value as 'active' | 'inactive' })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   >
-                    <option value="active">有効</option>
-                    <option value="inactive">無効</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
                   </select>
                 </div>
 
@@ -329,7 +329,7 @@ const Users = () => {
                     onClick={() => setShowModal(false)}
                     className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                   >
-                    キャンセル
+                    Cancel
                   </button>
                   <button
                     type="submit"

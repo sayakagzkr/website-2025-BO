@@ -18,12 +18,12 @@ const Settings = () => {
     setMessage(null);
 
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      setMessage({ type: 'error', text: '新しいパスワードが一致しません' });
+      setMessage({ type: 'error', text: '新しいPasswordが一致しません' });
       return;
     }
 
     if (passwordForm.newPassword.length < 6) {
-      setMessage({ type: 'error', text: 'パスワードは6文字以上である必要があります' });
+      setMessage({ type: 'error', text: 'Passwordは6文字以上である必要があります' });
       return;
     }
 
@@ -34,7 +34,7 @@ const Settings = () => {
         currentPassword: passwordForm.currentPassword,
         newPassword: passwordForm.newPassword,
       });
-      setMessage({ type: 'success', text: 'パスワードを変更しました' });
+      setMessage({ type: 'success', text: 'PasswordをChangeしました' });
       setPasswordForm({
         currentPassword: '',
         newPassword: '',
@@ -43,7 +43,7 @@ const Settings = () => {
     } catch (error: any) {
       setMessage({ 
         type: 'error', 
-        text: error.response?.data?.error || 'パスワードの変更に失敗しました' 
+        text: error.response?.data?.error || 'PasswordのChangeにfailed' 
       });
     } finally {
       setLoading(false);
@@ -53,43 +53,43 @@ const Settings = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">設定</h1>
-        <p className="text-gray-600 mt-1">アカウント設定の管理</p>
+        <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
+        <p className="text-gray-600 mt-1">アカウントSettingsのManage</p>
       </div>
 
       {/* User Info */}
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
           <User className="mr-2" size={24} />
-          アカウント情報
+          Account Information
         </h2>
         <div className="space-y-4">
           <div className="flex items-center py-3 border-b">
-            <div className="w-32 text-sm font-medium text-gray-700">ユーザー名</div>
+            <div className="w-32 text-sm font-medium text-gray-700">Username</div>
             <div className="text-sm text-gray-900">{user?.username}</div>
           </div>
           <div className="flex items-center py-3 border-b">
-            <div className="w-32 text-sm font-medium text-gray-700">メールアドレス</div>
+            <div className="w-32 text-sm font-medium text-gray-700">Email</div>
             <div className="text-sm text-gray-900">{user?.email}</div>
           </div>
           <div className="flex items-center py-3 border-b">
-            <div className="w-32 text-sm font-medium text-gray-700">氏名</div>
+            <div className="w-32 text-sm font-medium text-gray-700">Full Name</div>
             <div className="text-sm text-gray-900">{user?.full_name || '-'}</div>
           </div>
           <div className="flex items-center py-3 border-b">
-            <div className="w-32 text-sm font-medium text-gray-700">権限</div>
+            <div className="w-32 text-sm font-medium text-gray-700">Role</div>
             <div>
               <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
                 user?.role === 'admin' 
                   ? 'bg-purple-100 text-purple-800' 
                   : 'bg-blue-100 text-blue-800'
               }`}>
-                {user?.role === 'admin' ? '管理者' : 'ユーザー'}
+                {user?.role === 'admin' ? 'Admin' : 'ユーザー'}
               </span>
             </div>
           </div>
           <div className="flex items-center py-3">
-            <div className="w-32 text-sm font-medium text-gray-700">作成日</div>
+            <div className="w-32 text-sm font-medium text-gray-700">Created</div>
             <div className="text-sm text-gray-900">
               {user?.created_at && new Date(user.created_at).toLocaleDateString('ja-JP', {
                 year: 'numeric',
@@ -105,7 +105,7 @@ const Settings = () => {
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
           <Lock className="mr-2" size={24} />
-          パスワード変更
+          PasswordChange
         </h2>
 
         {message && (
@@ -121,7 +121,7 @@ const Settings = () => {
         <form onSubmit={handlePasswordChange} className="space-y-4 max-w-md">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              現在のパスワード *
+              現在のPassword *
             </label>
             <input
               type="password"
@@ -129,13 +129,13 @@ const Settings = () => {
               onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="現在のパスワード"
+              placeholder="現在のPassword"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              新しいパスワード *
+              新しいPassword *
             </label>
             <input
               type="password"
@@ -143,13 +143,13 @@ const Settings = () => {
               onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="新しいパスワード（6文字以上）"
+              placeholder="新しいPassword（6文字以上）"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              新しいパスワード（確認） *
+              新しいPassword（Confirm） *
             </label>
             <input
               type="password"
@@ -157,7 +157,7 @@ const Settings = () => {
               onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="新しいパスワード（再入力）"
+              placeholder="新しいPassword（再入力）"
             />
           </div>
 
@@ -166,7 +166,7 @@ const Settings = () => {
             disabled={loading}
             className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? '変更中...' : 'パスワードを変更'}
+            {loading ? 'Change中...' : 'PasswordをChange'}
           </button>
         </form>
       </div>
@@ -174,19 +174,19 @@ const Settings = () => {
       {/* System Info */}
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-6">
-          システム情報
+          System Information
         </h2>
         <div className="space-y-3 text-sm text-gray-600">
           <div className="flex justify-between py-2 border-b">
-            <span className="font-medium">バージョン</span>
+            <span className="font-medium">Version</span>
             <span>1.0.0</span>
           </div>
           <div className="flex justify-between py-2 border-b">
-            <span className="font-medium">環境</span>
+            <span className="font-medium">Environment</span>
             <span>Development</span>
           </div>
           <div className="flex justify-between py-2">
-            <span className="font-medium">最終更新</span>
+            <span className="font-medium">Last Updated</span>
             <span>{new Date().toLocaleDateString('ja-JP')}</span>
           </div>
         </div>

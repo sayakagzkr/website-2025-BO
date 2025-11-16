@@ -36,7 +36,7 @@ const ContentEdit = () => {
       });
     } catch (error) {
       console.error('Failed to load content:', error);
-      alert('コンテンツの読み込みに失敗しました');
+      alert('Contentの読み込みにfailed');
     }
   };
 
@@ -68,7 +68,7 @@ const ContentEdit = () => {
       }
       navigate('/content');
     } catch (error: any) {
-      alert(error.response?.data?.error || '保存に失敗しました');
+      alert(error.response?.data?.error || 'Saveにfailed');
     } finally {
       setLoading(false);
     }
@@ -86,9 +86,9 @@ const ContentEdit = () => {
           </button>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
-              {id ? 'コンテンツ編集' : '新規コンテンツ'}
+              {id ? 'ContentEdit' : '新規Content'}
             </h1>
-            <p className="text-gray-600 mt-1">コンテンツの作成・編集</p>
+            <p className="text-gray-600 mt-1">Contentの作成・Edit</p>
           </div>
         </div>
       </div>
@@ -98,7 +98,7 @@ const ContentEdit = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                タイトル *
+                Title *
               </label>
               <input
                 type="text"
@@ -106,13 +106,13 @@ const ContentEdit = () => {
                 onChange={(e) => handleTitleChange(e.target.value)}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                placeholder="コンテンツのタイトル"
+                placeholder="ContentのTitle"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                スラッグ *
+                Slug *
               </label>
               <input
                 type="text"
@@ -127,7 +127,7 @@ const ContentEdit = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                カテゴリ
+                Category
               </label>
               <input
                 type="text"
@@ -140,7 +140,7 @@ const ContentEdit = () => {
 
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                ステータス *
+                Status *
               </label>
               <div className="flex space-x-4">
                 <label className="flex items-center">
@@ -151,7 +151,7 @@ const ContentEdit = () => {
                     onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
                     className="mr-2"
                   />
-                  <span className="text-sm text-gray-700">下書き</span>
+                  <span className="text-sm text-gray-700">Draft</span>
                 </label>
                 <label className="flex items-center">
                   <input
@@ -161,7 +161,7 @@ const ContentEdit = () => {
                     onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
                     className="mr-2"
                   />
-                  <span className="text-sm text-gray-700">公開</span>
+                  <span className="text-sm text-gray-700">Published</span>
                 </label>
                 <label className="flex items-center">
                   <input
@@ -171,21 +171,21 @@ const ContentEdit = () => {
                     onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
                     className="mr-2"
                   />
-                  <span className="text-sm text-gray-700">アーカイブ</span>
+                  <span className="text-sm text-gray-700">Archived</span>
                 </label>
               </div>
             </div>
 
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                コンテンツ
+                Content
               </label>
               <textarea
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 rows={15}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono text-sm"
-                placeholder="コンテンツの本文を入力..."
+                placeholder="ContentのBodyを入力..."
               />
             </div>
           </div>
@@ -197,7 +197,7 @@ const ContentEdit = () => {
             onClick={() => navigate('/content')}
             className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
           >
-            キャンセル
+            Cancel
           </button>
           <button
             type="submit"
@@ -205,7 +205,7 @@ const ContentEdit = () => {
             className="flex items-center px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors disabled:opacity-50"
           >
             <Save size={20} className="mr-2" />
-            {loading ? '保存中...' : '保存'}
+            {loading ? 'Save中...' : 'Save'}
           </button>
         </div>
       </form>
