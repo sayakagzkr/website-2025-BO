@@ -36,7 +36,7 @@ const ContentEdit = () => {
       });
     } catch (error) {
       console.error('Failed to load content:', error);
-      alert('Contentの読み込みにfailed');
+      alert('Failed to load content');
     }
   };
 
@@ -68,7 +68,7 @@ const ContentEdit = () => {
       }
       navigate('/content');
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Saveにfailed');
+      alert(error.response?.data?.error || 'Failed to save');
     } finally {
       setLoading(false);
     }
@@ -86,9 +86,9 @@ const ContentEdit = () => {
           </button>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
-              {id ? 'ContentEdit' : '新規Content'}
+              {id ? 'Edit Content' : 'New Content'}
             </h1>
-            <p className="text-gray-600 mt-1">Create Content・Edit</p>
+            <p className="text-gray-600 mt-1">Create or edit content</p>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ const ContentEdit = () => {
                 onChange={(e) => handleTitleChange(e.target.value)}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                placeholder="ContentのTitle"
+                placeholder="Content title"
               />
             </div>
 
@@ -122,7 +122,7 @@ const ContentEdit = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 placeholder="url-friendly-slug"
               />
-              <p className="mt-1 text-sm text-gray-500">Identifiers used in URL</p>
+              <p className="mt-1 text-sm text-gray-500">Identifier used in URL</p>
             </div>
 
             <div>
@@ -134,7 +134,7 @@ const ContentEdit = () => {
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                placeholder="例: ニュース、ブログ"
+                placeholder="Example: News, Blog"
               />
             </div>
 
@@ -185,7 +185,7 @@ const ContentEdit = () => {
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 rows={15}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono text-sm"
-                placeholder="ContentのBodyを入力..."
+                placeholder="Enter content body..."
               />
             </div>
           </div>
