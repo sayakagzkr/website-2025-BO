@@ -30,7 +30,7 @@ const ContentPage = () => {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm('本当にDeleteしますか？')) return;
+    if (!confirm('Are you sure you want to delete this?')) return;
     try {
       await contentApi.delete(id);
       loadContent();
@@ -70,7 +70,7 @@ const ContentPage = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Content Management</h1>
-          <p className="text-gray-600 mt-1">ArticleやPageのManage</p>
+          <p className="text-gray-600 mt-1">Manage Articles and Pages</p>
         </div>
         <button
           onClick={() => navigate('/content/new')}
@@ -99,7 +99,7 @@ const ContentPage = () => {
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
-            <option value="">AllのStatus</option>
+            <option value="">All Status</option>
             <option value="draft">Draft</option>
             <option value="published">Published</option>
             <option value="archived">Archived</option>
