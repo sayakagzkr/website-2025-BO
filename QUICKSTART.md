@@ -1,80 +1,199 @@
-# クイックスタートガイド
+# MySQL Migration Quick Start Guide
 
-## 🚀 すぐに使い始める
+This document provides a quick setup guide for the MySQL-based backoffice system.
 
-### 1. 必要なもの
-- Node.js 18以上
-- npm または yarn
+## Prerequisites
 
-### 2. インストール
+Before starting, ensure you have:
+- ✅ MySQL 8.0+ installed
+- ✅ Node.js 18+ installed
+- ✅ Root access to MySQL
+
+## Quick Setup (5 minutes)
+
+### Step 1: Create MySQL Database
 
 ```bash
-# すべての依存関係をインストール
+# Login to MySQL as root
+mysql -u root -p
+
+# Run these commands:
+CREATE DATABASE backoffice_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'backoffice_user'@'localhost' IDENTIFIED BY 'YourSecurePassword123!';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, REFERENCES ON backoffice_db.* TO 'backoffice_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+Or use the provided script:
+```bash
+mysql -u root -p < backend/mysql-setup.sql
+# Remember to change the password in the script first!
+```
+
+### Step 2: Configure Environment
+
+```bash
+cd backend
+cp .env.example .env
+```
+
+Edit `.env` file:
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=backoffice_user
+DB_PASSWORD=YourSecurePassword123!
+DB_NAME=backoffice_db
+
+JWT_SECRET=your-super-secret-jwt-key-at-least-32-characters-long
+```
+
+Generate a secure JWT secret:
+```bash
+openssl rand -base64 32
+```
+
+### Step 3: Install Dependencies
+
+```bash
+# From project root
 npm run install:all
 ```
 
-### 3. サーバーの起動
+### Step 4: Start the Application
 
 ```bash
-# 開発サーバーを起動（バックエンド + フロントエンド）
 npm run dev
 ```
 
-これで以下のURLでアクセスできます：
-- **フロントエンド**: http://localhost:5173
-- **バックエンドAPI**: http://localhost:3001
+The application will:
+1. Connect to MySQL
+2. Create all necessary tables automatically
+3. Create default admin user (admin / admin123)
+4. Start backend on http://localhost:3001
+5. Start frontend on http://localhost:5173
 
-### 4. ログイン
+## Verify Setup
 
-デフォルトの管理者アカウント：
-- **ユーザー名**: `admin`
-- **パスワード**: `admin123`
-
-⚠️ **重要**: 初回ログイン後、必ず「設定」からパスワードを変更してください。
-
-## 📱 使い方
-
-### ダッシュボード
-システムの概要と統計情報を確認できます。
-
-### ユーザー管理
-1. サイドバーから「ユーザー管理」をクリック
-2. 「新規ユーザー」ボタンでユーザーを追加
-3. 編集・削除も可能（管理者のみ）
-
-### コンテンツ管理
-1. サイドバーから「コンテンツ管理」をクリック
-2. 「新規作成」ボタンで記事を作成
-3. ステータス: 下書き → 公開 → アーカイブ
-
-### 設定
-パスワード変更やアカウント情報の確認ができます。
-
-## 🛠️ トラブルシューティング
-
-### ポートが使用されている場合
-
-**バックエンド（3001）の変更**:
-```bash
-# backend/.env を編集
-PORT=3002
-```
-
-**フロントエンド（5173）の変更**:
-```javascript
-// frontend/vite.config.ts を編集
-server: {
-  port: 5174
-}
-```
-
-### データベースのリセット
+### Test Database Connection
 
 ```bash
-rm backend/data/database.db
-# サーバーを再起動
+# Test connection
+mysql -u backoffice_user -p backoffice_db
+
+# Check tables
+SHOW TABLES;
+
+# Check admin user
+SELECT username, email, role FROM users WHERE role='admin';
 ```
 
-## 📚 詳細情報
+### Test API
 
-詳しくは [README.md](README.md) をご覧ください。
+```bash
+# Health check
+curl http://localhost:3001/api/health
+
+# Should return:
+# {"status":"ok","timestamp":"...","environment":"development","database":"MySQL"}
+```
+
+### Login to Application
+
+1. Open browser: http://localhost:5173
+2. Login with:
+   - Username: `admin`
+   - Password: `admin123`
+3. ⚠️ **IMPORTANT**: Change password immediately!
+
+## Security Checklist
+
+Before going to production:
+
+- [ ] Change default admin password
+- [ ] Change JWT_SECRET to a strong random string
+- [ ] Change all database passwords
+- [ ] Enable MySQL SSL/TLS (set DB_SSL=true)
+- [ ] Configure firewall rules
+- [ ] Set up automated backups
+- [ ] Review user privileges
+- [ ] Set NODE_ENV=production
+- [ ] Configure HTTPS
+- [ ] Review CORS settings
+
+## Common Issues
+
+### "Access Denied" Error
+- Check username/password in `.env`
+- Verify user exists: `SELECT User, Host FROM mysql.user;`
+
+### "Unknown Database" Error
+- Ensure database was created
+- Check database name in `.env` matches created database
+
+### "Connection Refused" Error
+- Check if MySQL is running: `systemctl status mysql`
+- Check if MySQL is listening on port 3306: `netstat -an | grep 3306`
+
+### Tables Not Created
+- Check application logs for errors
+- Verify user has CREATE privilege
+- Try connecting manually to test
+
+## Next Steps
+
+1. **Read Full Documentation**: [MYSQL_SETUP.md](MYSQL_SETUP.md)
+2. **Security Hardening**: Review security best practices
+3. **Backup Setup**: Configure automated backups
+4. **Monitoring**: Set up database monitoring
+5. **Production Deployment**: Follow production checklist
+
+## Support
+
+For detailed setup instructions and troubleshooting:
+- [MYSQL_SETUP.md](MYSQL_SETUP.md) - Complete MySQL guide
+- [README.md](README.md) - Application documentation
+- GitHub Issues - Report problems
+
+---
+
+## Cloud Database Setup
+
+### AWS RDS (Recommended for Production)
+
+```env
+DB_HOST=your-instance.region.rds.amazonaws.com
+DB_PORT=3306
+DB_USER=backoffice_user
+DB_PASSWORD=strong_password_here
+DB_NAME=backoffice_db
+DB_SSL=true
+```
+
+### Google Cloud SQL
+
+```env
+DB_HOST=/cloudsql/project:region:instance
+DB_PORT=3306
+DB_USER=backoffice_user
+DB_PASSWORD=strong_password_here
+DB_NAME=backoffice_db
+```
+
+### Azure MySQL
+
+```env
+DB_HOST=your-server.mysql.database.azure.com
+DB_PORT=3306
+DB_USER=backoffice_user@your-server
+DB_PASSWORD=strong_password_here
+DB_NAME=backoffice_db
+DB_SSL=true
+```
+
+---
+
+**Ready to start!** 🚀
+
+Run `npm run dev` and access http://localhost:5173
