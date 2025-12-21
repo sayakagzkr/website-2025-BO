@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken');
 const { db } = require('../utils/database');
 const { authMiddleware } = require('../middleware/auth');
 
-// Login
-router.post('/login', (req, res) => {
+// Login with security enhancements
+router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -14,19 +14,64 @@ router.post('/login', (req, res) => {
       return res.status(400).json({ error: 'Username and password are required' });
     }
 
-    const user = db.prepare('SELECT * FROM users WHERE username = ? AND status = ?')
-      .get(username, 'active');
+    // Get user with MySQL async query
+    const user = await db.get(
+      'SELECT * FROM users WHERE username = ? AND status = ?',
+      [username, 'active']
+    );
 
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const isValidPassword = bcrypt.compareSync(password, user.password);
-
-    if (!isValidPassword) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+    // Check if account is locked
+    if (user.locked_until && new Date(user.locked_until) > new Date()) {
+      return res.status(423).json({ 
+        error: 'Account is temporarily locked. Please try again later.' 
+      });
     }
 
+    // Verify password
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    if (!isValidPassword) {
+      // Increment failed login attempts
+      const attempts = (user.failed_login_attempts || 0) + 1;
+      const maxAttempts = parseInt(process.env.MAX_LOGIN_ATTEMPTS) || 5;
+      
+      if (attempts >= maxAttempts) {
+        // Lock account
+        const lockDuration = parseInt(process.env.ACCOUNT_LOCK_DURATION) || 30;
+        const lockUntil = new Date(Date.now() + lockDuration * 60 * 1000);
+        
+        await db.run(
+          'UPDATE users SET failed_login_attempts = ?, locked_until = ? WHERE id = ?',
+          [attempts, lockUntil, user.id]
+        );
+        
+        return res.status(423).json({ 
+          error: `Account locked due to too many failed attempts. Try again in ${lockDuration} minutes.` 
+        });
+      }
+      
+      await db.run(
+        'UPDATE users SET failed_login_attempts = ? WHERE id = ?',
+        [attempts, user.id]
+      );
+      
+      return res.status(401).json({ 
+        error: 'Invalid credentials',
+        attemptsRemaining: maxAttempts - attempts
+      });
+    }
+
+    // Reset failed attempts and update last login
+    await db.run(
+      'UPDATE users SET failed_login_attempts = 0, locked_until = NULL, last_login = NOW() WHERE id = ?',
+      [user.id]
+    );
+
+    // Generate JWT token
     const token = jwt.sign(
       { 
         id: user.id, 
@@ -35,16 +80,18 @@ router.post('/login', (req, res) => {
         role: user.role 
       },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
+      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
     );
 
-    // Remove password from response
+    // Remove sensitive data from response
     delete user.password;
+    delete user.failed_login_attempts;
+    delete user.locked_until;
 
     res.json({ 
       token, 
       user,
-      expiresIn: process.env.JWT_EXPIRES_IN
+      expiresIn: process.env.JWT_EXPIRES_IN || '7d'
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -53,10 +100,12 @@ router.post('/login', (req, res) => {
 });
 
 // Get current user
-router.get('/me', authMiddleware, (req, res) => {
+router.get('/me', authMiddleware, async (req, res) => {
   try {
-    const user = db.prepare('SELECT id, username, email, full_name, role, status, created_at FROM users WHERE id = ?')
-      .get(req.user.id);
+    const user = await db.get(
+      'SELECT id, username, email, full_name, role, status, last_login, created_at FROM users WHERE id = ?',
+      [req.user.id]
+    );
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -70,7 +119,7 @@ router.get('/me', authMiddleware, (req, res) => {
 });
 
 // Change password
-router.post('/change-password', authMiddleware, (req, res) => {
+router.post('/change-password', authMiddleware, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
 
@@ -82,20 +131,50 @@ router.post('/change-password', authMiddleware, (req, res) => {
       return res.status(400).json({ error: 'Password must be at least 6 characters' });
     }
 
-    const user = db.prepare('SELECT password FROM users WHERE id = ?').get(req.user.id);
+    // Password strength validation
+    const hasUpperCase = /[A-Z]/.test(newPassword);
+    const hasLowerCase = /[a-z]/.test(newPassword);
+    const hasNumbers = /\d/.test(newPassword);
+    
+    if (newPassword.length < 8 || !hasUpperCase || !hasLowerCase || !hasNumbers) {
+      return res.status(400).json({ 
+        error: 'Password must be at least 8 characters and contain uppercase, lowercase, and numbers' 
+      });
+    }
 
-    if (!bcrypt.compareSync(currentPassword, user.password)) {
+    const user = await db.get(
+      'SELECT password FROM users WHERE id = ?',
+      [req.user.id]
+    );
+
+    const isValidPassword = await bcrypt.compare(currentPassword, user.password);
+    
+    if (!isValidPassword) {
       return res.status(401).json({ error: 'Current password is incorrect' });
     }
 
-    const hashedPassword = bcrypt.hashSync(newPassword, 10);
-    db.prepare('UPDATE users SET password = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
-      .run(hashedPassword, req.user.id);
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    await db.run(
+      'UPDATE users SET password = ?, updated_at = NOW() WHERE id = ?',
+      [hashedPassword, req.user.id]
+    );
 
     res.json({ message: 'Password changed successfully' });
   } catch (error) {
     console.error('Change password error:', error);
     res.status(500).json({ error: 'Failed to change password' });
+  }
+});
+
+// Logout (optional - for session invalidation)
+router.post('/logout', authMiddleware, async (req, res) => {
+  try {
+    // In a more complex system, you might want to blacklist the token
+    // For now, we just send a success response
+    res.json({ message: 'Logged out successfully' });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({ error: 'Logout failed' });
   }
 });
 
